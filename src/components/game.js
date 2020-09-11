@@ -31,7 +31,7 @@ class Game extends Component {
         var frameCount = 0
         setInterval(() => {
             this.ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-            if(frameCount%60 === 0) {
+            if(frameCount%80 === 0) {
                 this.pipes.push(new Pipe())
             }
             frameCount += 1

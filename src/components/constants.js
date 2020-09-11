@@ -11,7 +11,7 @@ export const GAME_SPEED = 30;
 
 export const PIPE_WIDTH = 60;
 export const PIPE_DISTANCE = 120;
-export const PIPE_SPEED = 5;
+export const PIPE_SPEED = 4;
 
 export const PADDING_SIZE = 40;
 

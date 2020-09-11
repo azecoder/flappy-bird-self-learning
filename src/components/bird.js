@@ -1,15 +1,19 @@
 import { Component } from 'react';
 import { BIRD_RADIUS, BIRD_VELOCITY_MAX, GAME_HEIGHT, PIPE_DISTANCE, PIPE_WIDTH, SCREEN } from './constants';
 
+import { NeuralNetwork } from './neural/nn'
+
 class Bird extends Component {
 
     posX
     posY
-    acceleration = 0.2
+    acceleration = 0.25
     velocity = 0
 
     isOut
     isDead
+
+    brain
 
     constructor() {
         super()
@@ -18,6 +22,12 @@ class Bird extends Component {
         this.posY = 100
         this.isOut = false
         this.isDead = false
+    
+        // inputs:
+        // [bird.x, bird.y]
+        // [doorTop.x, doorTop.y]
+        // [doorBottom.x, doorBottom.y]
+        this.brain = new NeuralNetwork(3, 5, 2)
     }
 
     draw = (ctx) => {
@@ -63,6 +73,34 @@ class Bird extends Component {
                         this.isDead = true;
                 }
         })
+
+        this.think(pipes)
+    }
+
+    think = (pipes) => {
+        let closestPipe = null
+        let record = Infinity
+        pipes.forEach(pipe => {
+            let diff = pipe.leftX - this.posX
+            if(diff > 0 && diff < record) {
+                record = diff
+                closestPipe = pipe
+            }
+        });
+
+        if(closestPipe) {
+            let inputs = []
+            inputs[0] = [this.posX, this.posY]
+            inputs[1] = [closestPipe.leftX, closestPipe.leftY + closestPipe.heightUp]
+            inputs[2] = [closestPipe.leftX, closestPipe.leftY + closestPipe.heightUp + PIPE_DISTANCE]
+
+            let action = this.brain.predict(inputs);
+            console.log(action)
+            if (action[1] > action[0]) {
+                this.jump()
+            }
+        }
+
     }
 
     jump = () => {

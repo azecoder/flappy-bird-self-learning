@@ -1,61 +1,73 @@
-import React, { useEffect } from 'react';
+import React, { Component } from 'react';
 import { GAME_WIDTH, GAME_HEIGHT, GAME_SPEED } from './constants'
 
 import Pipe from './pipe'
 import Bird from './bird'
 
-function Game() {
+class Game extends Component {
 
-    useEffect(() => {
+    canvas
+    ctx
 
-        let bird = new Bird()
+    pipes
+    birds
 
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') {
-                bird.jump()
-            }
-        })
+    constructor(props) {
+        super(props)
 
-        let canvas = document.getElementById("gameCanvas");
-        let ctx = canvas.getContext("2d");
+        this.pipes = []
+        this.birds = []
+    }
 
-        let pipe = new Pipe();
-        pipe.draw(ctx)
+    componentDidMount() {
+        document.addEventListener('keydown', this.onKeyDown)
 
-        let frameCount = 0
-        let pipes = []
+        this.canvas = document.getElementById("gameCanvas");
+        this.ctx = this.canvas.getContext("2d");
+    
+        var bird = new Bird()
+        this.birds.push(bird)
+
+        var frameCount = 0
         setInterval(() => {
-            ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+            this.ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+            if(frameCount%60 === 0) {
+                this.pipes.push(new Pipe())
+            }
             frameCount += 1
 
-            bird.draw(ctx)
-
-            if(frameCount%50 === 0) {
-                pipes.push(new Pipe())
-            }
-
-            pipes = pipes.filter(pipe => !pipe.isOut)
-            pipes.forEach(pipe => {
+            this.pipes = this.pipes.filter(pipe => !pipe.isOut)
+            this.pipes.forEach(pipe => {
                 pipe.update()
-                pipe.draw(ctx)
+                pipe.draw(this.ctx)
             })
 
-            bird.update()
-            bird.draw(ctx)
+            bird.update(this.pipes, this.props.setScreen)
+            bird.draw(this.ctx)
         }, 1000 / GAME_SPEED);
+    }
 
-    });
+    onKeyDown = (e) => {
+        if (e.code === 'Space') {
+            this.birds[0].jump()
+        }
+    }
 
-    return (
-        <canvas
-            id="gameCanvas"
-            width={GAME_WIDTH}
-            height={GAME_HEIGHT}
-            className="game-canvas"
-        >
-        Your browser does not support the HTML canvas tag.
-        </canvas>
-    )
+    render() {
+        return (
+            <div className="game-panel">
+                <h1>FlappyBird - Self Learning</h1>
+                <canvas
+                    id="gameCanvas"
+                    width={GAME_WIDTH}
+                    height={GAME_HEIGHT}
+                    className="game-canvas"
+                >
+                Your browser does not support the HTML canvas tag.
+                </canvas>
+            </div>
+        )
+    }
 
 }
 

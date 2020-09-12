@@ -27,7 +27,7 @@ class Bird extends Component {
         // [bird.x, bird.y]
         // [doorTop.x, doorTop.y]
         // [doorBottom.x, doorBottom.y]
-        this.brain = new NeuralNetwork(3, 5, 2)
+        this.brain = new NeuralNetwork(6, 10, 2)
     }
 
     draw = (ctx) => {
@@ -43,7 +43,7 @@ class Bird extends Component {
 
     update = (pipes, setScreen) => {
         if(this.isOut || this.isDead) {
-            setScreen(SCREEN.GAME_OVER)
+            // setScreen(SCREEN.GAME_OVER)
             return
         }
 
@@ -90,9 +90,13 @@ class Bird extends Component {
 
         if(closestPipe) {
             let inputs = []
-            inputs[0] = [this.posX, this.posY]
-            inputs[1] = [closestPipe.leftX, closestPipe.leftY + closestPipe.heightUp]
-            inputs[2] = [closestPipe.leftX, closestPipe.leftY + closestPipe.heightUp + PIPE_DISTANCE]
+            inputs = [
+                this.posX, 
+                this.posY, 
+                closestPipe.leftX, 
+                closestPipe.leftY + closestPipe.heightUp, 
+                closestPipe.leftX, 
+                closestPipe.leftY + closestPipe.heightUp + PIPE_DISTANCE]
 
             let action = this.brain.predict(inputs);
             console.log(action)

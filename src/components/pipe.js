@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { GAME_HEIGHT, PIPE_WIDTH, PIPE_DISTANCE, PADDING_SIZE, GAME_WIDTH, PIPE_SPEED } from './constants';
+import { GAME_HEIGHT, PIPE_WIDTH, PIPE_DISTANCE, GAME_WIDTH, PIPE_SPEED } from './constants';
 
 class Pipe extends Component {
 
@@ -10,12 +10,13 @@ class Pipe extends Component {
 
     isOut = false
 
-    constructor() {
+    constructor(pipeHeight) {
         super()
 
-        this.heightUp = Math.random() * (GAME_HEIGHT - PIPE_DISTANCE);
-        this.heightUp = Math.max(this.heightUp, PADDING_SIZE);
-        this.heightUp = Math.min(this.heightUp, GAME_HEIGHT - PIPE_DISTANCE - PADDING_SIZE);
+        // this.heightUp = Math.random() * (GAME_HEIGHT - PIPE_DISTANCE);
+        // this.heightUp = Math.max(this.heightUp, PADDING_SIZE);
+        // this.heightUp = Math.min(this.heightUp, GAME_HEIGHT - PIPE_DISTANCE - PADDING_SIZE);
+        this.heightUp = pipeHeight
         this.heightDown = GAME_HEIGHT - this.heightUp - PIPE_DISTANCE;
     }
 

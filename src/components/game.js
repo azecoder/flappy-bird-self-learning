@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GAME_WIDTH, GAME_HEIGHT, GAME_SPEED } from './constants'
+import { GAME_WIDTH, GAME_HEIGHT, GAME_SPEED, BIRD_COUNT, PIPE_COUNT, PIPE_DISTANCE, PADDING_SIZE } from './constants'
 
 import Pipe from './pipe'
 import Bird from './bird'
@@ -25,14 +25,25 @@ class Game extends Component {
         this.canvas = document.getElementById("gameCanvas");
         this.ctx = this.canvas.getContext("2d");
     
-        var bird = new Bird()
-        this.birds.push(bird)
+        for(let i=0; i<BIRD_COUNT; i++) {
+            this.birds.push(new Bird())
+        }
+
+        var pipeHeights = []
+        for(let i=0; i<PIPE_COUNT; i++) {
+            var ph = Math.random() * (GAME_HEIGHT - PIPE_DISTANCE);
+            ph = Math.max(ph, PADDING_SIZE);
+            ph = Math.min(ph, GAME_HEIGHT - PIPE_DISTANCE - PADDING_SIZE);
+            pipeHeights.push(ph)
+        }
 
         var frameCount = 0
+        var pipeIndex = 0
         setInterval(() => {
             this.ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
             if(frameCount%80 === 0) {
-                this.pipes.push(new Pipe())
+                this.pipes.push(new Pipe(pipeHeights[pipeIndex]))
+                pipeIndex += 1
             }
             frameCount += 1
 
@@ -42,8 +53,12 @@ class Game extends Component {
                 pipe.draw(this.ctx)
             })
 
-            bird.update(this.pipes, this.props.setScreen)
-            bird.draw(this.ctx)
+            this.birds = this.birds.filter(pipe => !pipe.isOut)
+            this.birds.forEach(bird => {
+                bird.update(this.pipes, this.props.setScreen)
+                bird.draw(this.ctx)
+            })
+
         }, 1000 / GAME_SPEED);
     }
 

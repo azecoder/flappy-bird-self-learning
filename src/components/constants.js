@@ -12,8 +12,10 @@ export const GAME_SPEED = 30;
 export const PIPE_WIDTH = 60;
 export const PIPE_DISTANCE = 120;
 export const PIPE_SPEED = 4;
+export const PIPE_COUNT = 2000;
 
 export const PADDING_SIZE = 40;
 
+export const BIRD_COUNT = 200;
 export const BIRD_RADIUS = 12;
 export const BIRD_VELOCITY_MAX = 5;

@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { BIRD_RADIUS, BIRD_VELOCITY_MAX, GAME_HEIGHT, PIPE_DISTANCE, PIPE_WIDTH } from './constants';
+import { BIRD_RADIUS, GAME_HEIGHT, PADDING_SIZE, PIPE_DISTANCE, PIPE_WIDTH } from './constants';
 
 import { NeuralNetwork } from './neural/nn'
 
@@ -19,8 +19,8 @@ class Bird extends Component {
     constructor(brain) {
         super()
         
-        this.posX = 100
-        this.posY = 200
+        this.posX = (Math.random() * 400) + PADDING_SIZE
+        this.posY = (Math.random() * 100) + PADDING_SIZE
         this.isOut = false
         this.isDead = false
 
@@ -87,10 +87,12 @@ class Bird extends Component {
         let closestPipe = null
         let record = Infinity
         pipes.forEach(pipe => {
-            let diff = pipe.leftX - this.posX
-            if(diff > 0 && diff < record) {
-                record = diff
-                closestPipe = pipe
+            if(pipe.leftX > this.posX) {
+                let diff = pipe.leftX - this.posX
+                if(diff > 0 && diff < record) {
+                    record = diff
+                    closestPipe = pipe
+                }
             }
         });
 
@@ -98,8 +100,8 @@ class Bird extends Component {
             let inputs = []
             inputs = [
                 this.posY, 
-                closestPipe.leftY + closestPipe.heightUp, 
-                closestPipe.leftY + closestPipe.heightUp + PIPE_DISTANCE,
+                closestPipe.leftY + closestPipe.heightUp + BIRD_RADIUS, 
+                closestPipe.leftY + closestPipe.heightUp + PIPE_DISTANCE - BIRD_RADIUS,
                 PIPE_WIDTH
             ]
 
@@ -118,7 +120,7 @@ class Bird extends Component {
 
     mutate = () => {
         this.brain.mutate = ((x) => {
-            if (Math.random() < 0.2) {
+            if (Math.random() < 0.1) {
                 let offset = Math.round(Math.random()) * 0.5;
                 let newx = x + offset;
                 return newx;

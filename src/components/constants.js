@@ -1,7 +1,7 @@
 export const GAME_HEIGHT = 500;
 export const GAME_WIDTH = 800;
 
-export const GAME_SPEED = 30;
+export const GAME_SPEED = 60;
 
 export const PIPE_WIDTH = 25;
 export const PIPE_DISTANCE = 180;

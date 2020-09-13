@@ -7,11 +7,7 @@ html, body {
 
 /* -------------------- */
 
-.game-panel {
-
-}
-
-.game-panel > h1 {
+.Game h1 {
   margin: 30px 0;
 }
 

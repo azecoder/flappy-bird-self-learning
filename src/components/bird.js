@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { BIRD_RADIUS, BIRD_VELOCITY_MAX, GAME_HEIGHT, PIPE_DISTANCE, PIPE_WIDTH, SCREEN } from './constants';
+import { BIRD_RADIUS, BIRD_VELOCITY_MAX, GAME_HEIGHT, PIPE_DISTANCE, PIPE_WIDTH } from './constants';
 
 import { NeuralNetwork } from './neural/nn'
 
@@ -7,27 +7,32 @@ class Bird extends Component {
 
     posX
     posY
-    acceleration = 0.25
+    acceleration = 0.4
     velocity = 0
 
     isOut
     isDead
 
     brain
+    flyTime
 
-    constructor() {
+    constructor(brain) {
         super()
         
         this.posX = 100
-        this.posY = 100
+        this.posY = 200
         this.isOut = false
         this.isDead = false
+
+        this.flyTime = 0
     
         // inputs:
         // [bird.x, bird.y]
         // [doorTop.x, doorTop.y]
         // [doorBottom.x, doorBottom.y]
-        this.brain = new NeuralNetwork(6, 10, 2)
+
+        this.brain = brain || new NeuralNetwork(4, 10, 2)
+        // this.brain = brain || new NeuralNetwork(6, 10, 2)
     }
 
     draw = (ctx) => {
@@ -41,14 +46,14 @@ class Bird extends Component {
         ctx.stroke();
     }
 
-    update = (pipes, setScreen) => {
+    update = (pipes) => {
         if(this.isOut || this.isDead) {
             // setScreen(SCREEN.GAME_OVER)
             return
         }
 
         this.velocity += this.acceleration  // new_v = old_v + delta_v, delta_v = acc * time
-        this.velocity = Math.min(this.velocity, BIRD_VELOCITY_MAX)
+        this.velocity = Math.min(this.velocity, 4)
         this.posY += this.velocity
 
         if(this.posY + 2 * BIRD_RADIUS < 0 || this.posY > GAME_HEIGHT + BIRD_RADIUS) {
@@ -74,6 +79,7 @@ class Bird extends Component {
                 }
         })
 
+        this.flyTime += 1
         this.think(pipes)
     }
 
@@ -91,15 +97,14 @@ class Bird extends Component {
         if(closestPipe) {
             let inputs = []
             inputs = [
-                this.posX, 
                 this.posY, 
-                closestPipe.leftX, 
                 closestPipe.leftY + closestPipe.heightUp, 
-                closestPipe.leftX, 
-                closestPipe.leftY + closestPipe.heightUp + PIPE_DISTANCE]
+                closestPipe.leftY + closestPipe.heightUp + PIPE_DISTANCE,
+                PIPE_WIDTH
+            ]
 
             let action = this.brain.predict(inputs);
-            console.log(action)
+
             if (action[1] > action[0]) {
                 this.jump()
             }
@@ -108,8 +113,20 @@ class Bird extends Component {
     }
 
     jump = () => {
-        this.velocity = -5
+        this.velocity = -8
     }
+
+    mutate = () => {
+        this.brain.mutate = ((x) => {
+            if (Math.random() < 0.2) {
+                let offset = Math.round(Math.random()) * 0.5;
+                let newx = x + offset;
+                return newx;
+            } else {
+                return x;
+            }
+        });
+    } 
 
 }
 

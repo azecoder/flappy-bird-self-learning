@@ -1,22 +1,19 @@
-import React, { useState } from 'react';
-import { SCREEN } from './components/constants';
+import React, { Component } from 'react';
 import './App.css';
 
 import Game from './components/game'
 
-function App() {
+class App extends Component {
 
-  const [screen, setScreen] = useState(SCREEN.GAME)
+  render() {
+    return (
+      <div className="Game">
+        <h1>FlappyBird - Self Learning</h1>
+        <Game/>
+      </div>
+    );
+  }
 
-  return (
-    <div className="App">
-      {screen === SCREEN.GAME ? (
-        <Game setScreen={setScreen}/>
-      ) : (
-        <h2>Game Over...</h2>
-      )}
-    </div>
-  );
 }
 
 export default App;

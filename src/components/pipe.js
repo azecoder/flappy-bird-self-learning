@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { GAME_HEIGHT, PIPE_DISTANCE, GAME_WIDTH, PIPE_SPEED } from './constants';
+import { GAME_HEIGHT, GAME_WIDTH, PADDING_SIZE, PIPE_SPEED } from './constants';
 
 class Pipe extends Component {
 
@@ -8,18 +8,20 @@ class Pipe extends Component {
     heightUp
     heightDown
     width
+    distance
 
     isOut = false
 
-    constructor(pipeHeight, pipeWidth) {
+    constructor(pipeWidth, pipeDistance) {
         super()
 
-        // this.heightUp = Math.random() * (GAME_HEIGHT - PIPE_DISTANCE);
-        // this.heightUp = Math.max(this.heightUp, PADDING_SIZE);
-        // this.heightUp = Math.min(this.heightUp, GAME_HEIGHT - PIPE_DISTANCE - PADDING_SIZE);
-        this.heightUp = parseInt(pipeHeight)
         this.width = parseInt(pipeWidth)
-        this.heightDown = GAME_HEIGHT - this.heightUp - PIPE_DISTANCE;
+        this.distance = parseInt(pipeDistance)
+
+        this.heightUp = Math.random() * (GAME_HEIGHT - this.distance);
+        this.heightUp = Math.max(this.heightUp, PADDING_SIZE);
+        this.heightUp = Math.min(this.heightUp, GAME_HEIGHT - this.distance - PADDING_SIZE);
+        this.heightDown = GAME_HEIGHT - this.heightUp - this.distance;
     }
 
     draw = (ctx) => {
@@ -32,7 +34,7 @@ class Pipe extends Component {
         ctx.beginPath();
         ctx.lineWidth = "2";
         ctx.fillStyle = "OliveDrab";
-        ctx.fillRect(this.leftX, this.leftY + this.heightUp + PIPE_DISTANCE, this.width, this.heightDown);
+        ctx.fillRect(this.leftX, this.leftY + this.heightUp + this.distance, this.width, this.heightDown);
         ctx.stroke();
     }
 

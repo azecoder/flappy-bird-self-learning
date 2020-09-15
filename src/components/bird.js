@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { BIRD_RADIUS, GAME_HEIGHT, PADDING_SIZE, PIPE_DISTANCE, PIPE_WIDTH } from './constants';
+import { BIRD_RADIUS, GAME_HEIGHT, PADDING_SIZE, PIPE_DISTANCE } from './constants';
 
 import { NeuralNetwork } from './neural/nn'
 
@@ -63,12 +63,12 @@ class Bird extends Component {
         pipes.forEach(pipe => {
             const ST_PIPE_LEFT_TOP_X = pipe.leftX;
             const ST_PIPE_LEFT_TOP_Y = pipe.leftY;
-            const ST_PIPE_RIGHT_BOTTOM_X = pipe.leftX + PIPE_WIDTH;
+            const ST_PIPE_RIGHT_BOTTOM_X = pipe.leftX + pipe.width;
             const ST_PIPE_RIGHT_BOTTOM_Y = pipe.leftY + pipe.heightUp;
 
             const ND_PIPE_LEFT_TOP_X = pipe.leftX;
             const ND_PIPE_LEFT_TOP_Y = pipe.leftY + pipe.heightUp + PIPE_DISTANCE;
-            const ND_PIPE_RIGHT_BOTTOM_X = pipe.leftX + PIPE_WIDTH;
+            const ND_PIPE_RIGHT_BOTTOM_X = pipe.leftX + pipe.width;
             const ND_PIPE_RIGHT_BOTTOM_Y = GAME_HEIGHT;
         
             if( (this.posX + BIRD_RADIUS > ST_PIPE_LEFT_TOP_X && this.posX - BIRD_RADIUS < ST_PIPE_RIGHT_BOTTOM_X
@@ -102,7 +102,7 @@ class Bird extends Component {
                 this.posY, 
                 closestPipe.leftY + closestPipe.heightUp + BIRD_RADIUS, 
                 closestPipe.leftY + closestPipe.heightUp + PIPE_DISTANCE - BIRD_RADIUS,
-                PIPE_WIDTH
+                closestPipe.width
             ]
 
             let action = this.brain.predict(inputs);

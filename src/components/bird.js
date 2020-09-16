@@ -37,7 +37,12 @@ class Bird extends Component {
         // [doorTop.x, doorTop.y]
         // [doorBottom.x, doorBottom.y]
 
-        this.brain = brain || new NeuralNetwork(4, 10, 2)
+        if (brain instanceof NeuralNetwork) {
+            this.brain = brain.copy();
+            this.brain.mutate(this.mutate);
+        } else {
+            this.brain = brain || new NeuralNetwork(4, 10, 2)
+        }
         // this.brain = brain || new NeuralNetwork(6, 10, 2)
     }
 
@@ -140,16 +145,19 @@ class Bird extends Component {
         this.velocity = -8
     }
 
-    mutate = () => {
-        this.brain.mutate = ((x) => {
-            if (Math.random() < 0.1) {
-                let offset = Math.round(Math.random()) * 0.5;
-                let newx = x + offset;
-                return newx;
-            } else {
-                return x;
-            }
-        });
+    // Create a copy of this bird
+    copy = () => {
+        return new Bird(this.brain);
+    }
+
+    mutate = (x) => {
+        if (Math.random() < 0.1) {
+            let offset = Math.round(Math.random()) * 0.5;
+            let newx = x + offset;
+            return newx;
+        } else {
+            return x;
+        }
     } 
 
 }

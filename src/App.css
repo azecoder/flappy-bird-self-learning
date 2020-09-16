@@ -1,51 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
-html, body {
-  font-family: 'Ubuntu', sans-serif;
+html, body  {
+  font-family: 'Exo 2', sans-serif;
+}
+
+h1, h2, h3, h4, h5, p {
+  margin: 0px;
+  padding: 0px;
+}
+
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.App {
+  height: 100vh;
+  background-color: #F5F5F5;
+}
+
+.App-header {
+  background-color: #252733;
+  color: #FFF;
+  padding: 20px;
+}
+
+.App-content {
+  height: calc(100vh - 60px);
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: stretch;
+}
+
+.site-logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.site-logo .logo {
+  font-size: 24px;
+  margin-right: 20px;
+}
+
+.statistics {
+  flex-grow: 1;
+  padding: 30px 15px 0px 30px; 
+}
+.game-panel {
+  flex-grow: 2;
+  padding: 30px 15px 0px 15px;
+}
+.configurations {
+  flex-grow: 1;
+  padding: 30px 30px 0px 15px; 
+}
+
+.card {
+  display: flex;
+  flex-flow: column nowrap;
+  background-color: #FFF;
+  background-clip: border-box;
+  border: 1px solid #DEE2E6;
+  border-radius: 4px;
+  overflow: hidden;
+  min-width: 300px;
+  margin-bottom: 30px;
+}
+
+.card-header {
+  background-color: #FFF;
+  border-bottom: 1px solid #DEE2E6;
+  padding: 20px 20px;
+}
+
+.card-body {
+  padding: 0px 20px;
+}
+
+.card-body .card-item {
+  padding: 20px 0px;
+}
+
+.card-body .card-item+.card-item {
+  border-top: 1px solid #DEE2E6;
+}
+
+.statistics .card-item > div {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+
+.card-item .item-icon {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.card-item .record-icon {
+  font-size: 40px;
+  position: absolute;
+  right: 20px;
+  opacity: .4;
+}
+
+.card-game {
+  background-color: #FFF;
+  border: 1px solid #DEE2E6;
+  border-radius: 4px;
+  padding: 20px 20px;
+  overflow: hidden;
+  min-width: 400px;
+  margin-bottom: 30px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.card-game .game-canvas {
+  border: 1px dashed #6C757D;
+}
+
+.live-confg {
+  display: flex;
+  justify-content: center;
   text-align: center;
 }
 
-.App > h1 {
-  margin: 30px 0;
+.card,
+.card-game {
+  box-shadow: 0 0.46875rem 2.1875rem rgba(31,10,6,0.03),0 0.9375rem 1.40625rem rgba(31,10,6,0.03),0 0.25rem 0.53125rem rgba(31,10,6,0.05),0 0.125rem 0.1875rem rgba(31,10,6,0.03);
 }
 
-.Game {
-  display: flex;
-  flex-flow: row wrap;
-  /* flex-direction: row; */
-  /* flex-wrap: wrap; */
-  justify-content: center;
-  align-items: flex-start;
-  margin: 20px 100px;
-  height: calc(100vh - 200px);
+.btn {
+  cursor: pointer;
+  padding: 5px 50px;
+  border-radius: 50px;
+  min-height: 40px;
+  outline: 0px;
+  border: 0px;
+  font-size: 14px;
 }
 
-.Game > div {
-  height: 100%;
+
+/* Const ************************************************/
+.txt-primary{
+  color:#da624a !important
+}
+.bg-primary{
+  background-color:#da624a !important
+}
+a.bg-primary:hover,a.bg-primary:focus,button.bg-primary:hover,button.bg-primary:focus{
+  background-color:#c84329 !important
+}
+.txt-secondary{
+  color:#6c757d !important
+}
+.bg-secondary{
+  background-color:#6c757d !important
+}
+a.bg-secondary:hover,a.bg-secondary:focus,button.bg-secondary:hover,button.bg-secondary:focus{
+  background-color:#545b62 !important
+}
+.bg-success{
+  background-color:#3ac47d !important
+}
+.txt-success{
+  color:#3ac47d !important
+}
+a.bg-success:hover,a.bg-success:focus,button.bg-success:hover,button.bg-success:focus{
+  background-color:#2e9d64 !important
+}
+.txt-info{
+  color:#16aaff !important
+}
+.bg-info{
+  background-color:#16aaff !important
+}
+a.bg-info:hover,a.bg-info:focus,button.bg-info:hover,button.bg-info:focus{
+  background-color:#0090e2 !important
+}
+.txt-warning{
+  color:#f7b924 !important
+}
+.bg-warning{
+  background-color:#f7b924 !important
+}
+a.bg-warning:hover,a.bg-warning:focus,button.bg-warning:hover,button.bg-warning:focus{
+  background-color:#e0a008 !important
+}
+.txt-danger{
+  color:#d92550 !important
+}
+.bg-danger{
+  background-color:#d92550 !important
+}
+a.bg-danger:hover,a.bg-danger:focus,button.bg-danger:hover,button.bg-danger:focus{
+  background-color:#ad1e40 !important
+}
+.txt-light{
+  color:#eee !important
+}
+.bg-light{
+  background-color:#eee !important
+}
+a.bg-light:hover,a.bg-light:focus,button.bg-light:hover,button.bg-light:focus{
+  background-color:#d5d5d5 !important
+}
+.txt-dark{
+  color:#343a40 !important
+}
+.bg-dark{
+  background-color:#343a40 !important
+}
+a.bg-dark:hover,a.bg-dark:focus,button.bg-dark:hover,button.bg-dark:focus{
+  background-color:#1d2124 !important
+}
+.txt-focus{
+  color:#444054 !important
+}
+.bg-focus{
+  background-color:#444054 !important
+}
+a.bg-focus:hover,a.bg-focus:focus,button.bg-focus:hover,button.bg-focus:focus{
+  background-color:#2d2a37 !important
+}
+.txt-alternate{
+  color:#794c8a !important
+}
+.bg-alternate{
+  background-color:#794c8a !important
+}
+a.bg-alternate:hover,a.bg-alternate:focus,button.bg-alternate:hover,button.bg-alternate:focus{
+  background-color:#5c3a69 !important
+}
+.txt-white{
+  color:#fff !important
+}
+.bg-white{
+  background-color:#fff !important
+}
+.bg-transparent{
+  background-color:transparent !important
 }
 
-/* Left **********************************/
-.Game-left {
-  flex-grow: 1;
-  border-right: 2px solid red;
-
-  display: flex;
-}
-
-/* Center **********************************/
-.Game-center {
-  flex-grow: 2;
-}
-
-.Game-canvas {
-  border: 2px solid DimGray;
-}
-
-/* Left **********************************/
-.Game-right {
-  flex-grow: 1;
-  border-left: 2px solid red;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-}

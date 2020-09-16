@@ -42,7 +42,6 @@ class Bird extends Component {
     }
 
     getName = () => {
-        console.log(this.genID)
         var name = 'G' + this.addZero(this.genID, 4)
         name = name + 'N' + this.addZero(this.ID, 4)
     

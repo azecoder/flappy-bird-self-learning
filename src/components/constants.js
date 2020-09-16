@@ -10,5 +10,5 @@ export const PIPE_COUNT = 2000;
 
 export const PADDING_SIZE = 40;
 
-export const BIRD_COUNT = 500;
+export const BIRD_COUNT = 50;
 export const BIRD_RADIUS = 10;

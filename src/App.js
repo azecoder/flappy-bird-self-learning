@@ -7,7 +7,7 @@ import Pipe from './components/pipe'
 import Bird from './components/bird'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRecordVinyl, faDove, faAward, faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
+import { faRecordVinyl, faDove, faAward, faChevronCircleRight, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import { faEarlybirds } from '@fortawesome/free-brands-svg-icons'
 
 
@@ -120,7 +120,9 @@ class Game extends Component {
         // if all birds are dead
         if(aliveBirds.length === 0) {
             // sort all dead birds by fly time and take best bird
-            this.birds.push(this.bestBirds)
+            this.bestBirds.forEach(bird => {
+                this.birds.push(bird)
+            })
             this.birds.sort((a, b) => a.flyTime < b.flyTime)
 
             this.bestBirds = []
@@ -128,9 +130,8 @@ class Game extends Component {
                 this.bestBirds.push(this.birds[i])
             }
 
-            console.log(this.bestBirds)
             this.setState({
-                recordFlyTime: this.birds[0].flyTime,
+                recordFlyTime: this.bestBirds[0].flyTime,
                 bestBirds: this.bestBirds
             })
 
@@ -156,7 +157,7 @@ class Game extends Component {
     generateBirds(...bestBirds) {
         this.birds = []
         for(let i=0; i<this.state.birdCount; i++) {
-            if(bestBirds && bestBirds.length && Math.random() < 0.8) {
+            if(bestBirds && bestBirds.length && Math.random() < 0.85) {
                 this.birds.push(new Bird(i+1, this.loopNumber, bestBirds[i%bestBirds.length].brain))
             } else {
                 this.birds.push(new Bird(i+1, this.loopNumber))
@@ -209,7 +210,7 @@ class Game extends Component {
                             <div className="card-header">
                                 <h2>Statistics</h2>
                             </div>
-                            <div className="card-body">
+                            <div className="card-body random-color">
                                 <div className="card-item">
                                     <h3>Loop Number</h3>
                                     <div>
@@ -239,22 +240,70 @@ class Game extends Component {
                                         }
                                     </div>
                                 </div>
-                                { this.state.bestBirds.map(function(bird,index) {
-                                    return (
-                                        <div className="card-item">
-                                            <h3>Best Bird {index+1}</h3>
-                                            <div>
-                                                <div className="item-icon txt-info">
-                                                    <FontAwesomeIcon icon={faEarlybirds} />
-                                                </div>
-                                                <div className="item-data">
-                                                    <p>Name: <span>{bird ? bird.getName() : ""}</span></p>
-                                                    <p>Current: <span>{bird.flyTime}</span></p>
-                                                </div>
+                                { this.state.bestBirds.length ? (
+                                <React.Fragment>
+                                    <div className="card-item">
+                                        <h3>Best Bird 1</h3>
+                                        <div>
+                                            <div className="item-icon txt-info">
+                                                <FontAwesomeIcon icon={faEarlybirds} />
+                                            </div>
+                                            <div className="item-data">
+                                                <p>Name: <span>{this.state.bestBirds[0].getName()}</span></p>
+                                                <p>Current: <span>{this.state.bestBirds[0].flyTime}</span></p>
+                                            </div>
+                                            <div className="record-icon txt-success">
+                                                {this.state.bestBirds[0].flyTime < this.state.currentFlyTime ? (<FontAwesomeIcon icon={faAngleUp} />) : (<React.Fragment/>) }
                                             </div>
                                         </div>
-                                    );
-                                }) }
+                                    </div>
+                                    <div className="card-item">
+                                        <h3>Best Bird 2</h3>
+                                        <div>
+                                            <div className="item-icon txt-success">
+                                                <FontAwesomeIcon icon={faEarlybirds} />
+                                            </div>
+                                            <div className="item-data">
+                                                <p>Name: <span>{this.state.bestBirds[1].getName()}</span></p>
+                                                <p>Current: <span>{this.state.bestBirds[1].flyTime}</span></p>
+                                            </div>
+                                            <div className="record-icon txt-success">
+                                                {this.state.bestBirds[1].flyTime < this.state.currentFlyTime ? (<FontAwesomeIcon icon={faAngleUp} />) : (<React.Fragment/>) }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="card-item">
+                                        <h3>Best Bird 3</h3>
+                                        <div>
+                                            <div className="item-icon txt-warning">
+                                                <FontAwesomeIcon icon={faEarlybirds} />
+                                            </div>
+                                            <div className="item-data">
+                                                <p>Name: <span>{this.state.bestBirds[2].getName()}</span></p>
+                                                <p>Current: <span>{this.state.bestBirds[2].flyTime}</span></p>
+                                            </div>
+                                            <div className="record-icon txt-success">
+                                                {this.state.bestBirds[2].flyTime < this.state.currentFlyTime ? (<FontAwesomeIcon icon={faAngleUp} />) : (<React.Fragment/>) }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="card-item">
+                                        <h3>Best Bird 4</h3>
+                                        <div>
+                                            <div className="item-icon txt-focus">
+                                                <FontAwesomeIcon icon={faEarlybirds} />
+                                            </div>
+                                            <div className="item-data">
+                                                <p>Name: <span>{this.state.bestBirds[3].getName()}</span></p>
+                                                <p>Current: <span>{this.state.bestBirds[3].flyTime}</span></p>
+                                            </div>
+                                            <div className="record-icon txt-success">
+                                                {this.state.bestBirds[3].flyTime < this.state.currentFlyTime ? (<FontAwesomeIcon icon={faAngleUp} />) : (<React.Fragment/>) }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </React.Fragment>
+                                ) : (<React.Fragment/>) }
                             </div>
                         </div>
                     </section>

@@ -103,6 +103,30 @@ h1, h2, h3, h4, h5, p {
   margin-right: 10px;
 }
 
+.card-body.random-color .card-item:nth-child(1) .item-icon {
+  color: #444054;
+}
+
+.card-body.random-color .card-item:nth-child(2) .item-icon {
+  color: #da624a;
+}
+
+.card-body.random-color .card-item:nth-child(3) .item-icon {
+  color: #16aaff;
+}
+
+.card-body.random-color .card-item:nth-child(4) .item-icon {
+  color: #3ac47d;
+}
+
+.card-body.random-color .card-item:nth-child(5) .item-icon {
+  color: #f7b924;
+}
+
+.card-body.random-color .card-item:nth-child(6) .item-icon {
+  color: #444444;
+}
+
 .card-item .record-icon {
   font-size: 40px;
   position: absolute;

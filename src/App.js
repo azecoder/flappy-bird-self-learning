@@ -6,6 +6,11 @@ import { GAME_WIDTH, GAME_HEIGHT, BIRD_COUNT, PIPE_DISTANCE, GAME_SPEED, PIPE_WI
 import Pipe from './components/pipe'
 import Bird from './components/bird'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRecordVinyl, faDove, faAward, faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
+import { faEarlybirds } from '@fortawesome/free-brands-svg-icons'
+
+
 
 class Game extends Component {
 
@@ -16,10 +21,10 @@ class Game extends Component {
     birds
 
     // Find best bird and train others
-    bestBird1
-    bestBird2
+    bestBirds
 
     // 
+    loopNumber
     frameCount
     state
     
@@ -34,13 +39,19 @@ class Game extends Component {
     constructor(props) {
         super(props)
 
+        this.loopNumber = 0
         this.recordFlyTime = -1
+        this.bestBirds = []
                 
         this.state = {
             gameSpeed: GAME_SPEED,
             birdCount: BIRD_COUNT,
             pipeWidth: PIPE_WIDTH,
-            pipeDistance: PIPE_DISTANCE
+            pipeDistance: PIPE_DISTANCE,
+            bestBirds: [],
+            recordFlyTime: 0,
+            currentFlyTime: 0,
+            loopNumber: 0
         }
     }
 
@@ -59,12 +70,19 @@ class Game extends Component {
         
         this.pipeIndex = 0
         this.frameCount = 0
+        this.loopNumber += 1
+
+        // set current best fly time
+        this.setState({
+            currentFlyTime: 0,
+            loopNumber: this.loopNumber
+        })
     }
 
     // Restart Game
     restart() {
         this.reset()
-
+        
         // generate birds before starting
         this.generateBirds()
 
@@ -102,23 +120,35 @@ class Game extends Component {
         // if all birds are dead
         if(aliveBirds.length === 0) {
             // sort all dead birds by fly time and take best bird
-            this.birds.forEach(bird => {
-                if(this.recordFlyTime < bird.flyTime) {
-                    this.recordFlyTime = bird.flyTime
-                    this.bestBird2 = this.bestBird1
-                    this.bestBird1 = bird
-                }
+            this.birds.push(this.bestBirds)
+            this.birds.sort((a, b) => a.flyTime < b.flyTime)
+
+            this.bestBirds = []
+            for(let i = 0; i < 4; i++) {
+                this.bestBirds.push(this.birds[i])
+            }
+
+            console.log(this.bestBirds)
+            this.setState({
+                recordFlyTime: this.birds[0].flyTime,
+                bestBirds: this.bestBirds
             })
 
+            // reset unnecessary data 
             this.reset()
             
             // make mutation using best bird brain
-            this.bestBird1.mutate()
+            this.bestBirds[0].mutate()
             // generate new birds using best bird
-            this.generateBirds(this.bestBird1, this.bestBird2)
+            this.generateBirds(this.bestBirds)
 
             // start game and train again
             this.start()
+        } else {
+            // set current best fly time
+            this.setState({
+                currentFlyTime: aliveBirds[0].flyTime
+            })
         }
     }
 
@@ -127,9 +157,9 @@ class Game extends Component {
         this.birds = []
         for(let i=0; i<this.state.birdCount; i++) {
             if(bestBirds && bestBirds.length && Math.random() < 0.8) {
-                this.birds.push(new Bird(bestBirds[i%bestBirds.length].brain))
+                this.birds.push(new Bird(i+1, this.loopNumber, bestBirds[i%bestBirds.length].brain))
             } else {
-                this.birds.push(new Bird())
+                this.birds.push(new Bird(i+1, this.loopNumber))
             }
         }
     }
@@ -165,75 +195,132 @@ class Game extends Component {
     render() {
         return (
             <div className="App">
-                <h1>FlappyBird - Self Learning</h1>
-                <div className="Game">
-                    <div className="Game-left">
-                        <section>
-                            <h2>Statistics</h2>
-                            <div>
-                                <h3>Record</h3>
-                                <p>Best: <span>{this.state.gameSpeed}</span></p>
-                                <p>Current: <span>{this.state.gameSpeed}</span></p>
-                            </div>
-                            <div>
-                                <h3>Best Bird 1</h3>
-                                <p>ID: <span>{this.state.gameSpeed}</span></p>
-                                <p>Fly Time: <span>{this.state.gameSpeed}</span></p>
-                            </div>
-                            <div>
-                                <h3>Best Bird 2</h3>
-                                <p>ID: <span>{this.state.gameSpeed}</span></p>
-                                <p>Fly Time: <span>{this.state.gameSpeed}</span></p>
-                            </div>
-                        </section>
+                <div className="App-header">
+                    <div className="site-logo container">
+                        <div className="logo">
+                            <FontAwesomeIcon icon={faDove} />
+                        </div>
+                        <h2>FlappyBird - Self Learning</h2>
                     </div>
-                    <div className="Game-center">
-                        <React.Fragment>
-                            <canvas id="gameCanvas" width={GAME_WIDTH} height={GAME_HEIGHT} className="Game-canvas">
+                </div>
+                <div className="App-content container">
+                    <section className="statistics">
+                        <div className="card">
+                            <div className="card-header">
+                                <h2>Statistics</h2>
+                            </div>
+                            <div className="card-body">
+                                <div className="card-item">
+                                    <h3>Loop Number</h3>
+                                    <div>
+                                        <div className="item-icon txt-info">
+                                            <FontAwesomeIcon icon={faChevronCircleRight} />
+                                        </div>
+                                        <div className="item-data">
+                                            <p>Loop: <span>{this.state.loopNumber}</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="card-item">
+                                    <h3>Record</h3>
+                                    <div>
+                                        <div className="item-icon txt-primary">
+                                            <FontAwesomeIcon icon={faRecordVinyl} />
+                                        </div>
+                                        <div className="item-data">
+                                            <p>Best: <span>{this.state.recordFlyTime}</span></p>
+                                            <p>Current: <span>{this.state.currentFlyTime}</span></p>
+                                        </div>
+                                        { this.state.currentFlyTime > this.state.recordFlyTime ? (
+                                                <div className="record-icon txt-success">
+                                                    <FontAwesomeIcon icon={faAward} />
+                                                </div>
+                                            ) : ( <span></span> )
+                                        }
+                                    </div>
+                                </div>
+                                { this.state.bestBirds.map(function(bird,index) {
+                                    return (
+                                        <div className="card-item">
+                                            <h3>Best Bird {index+1}</h3>
+                                            <div>
+                                                <div className="item-icon txt-info">
+                                                    <FontAwesomeIcon icon={faEarlybirds} />
+                                                </div>
+                                                <div className="item-data">
+                                                    <p>Name: <span>{bird ? bird.getName() : ""}</span></p>
+                                                    <p>Current: <span>{bird.flyTime}</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                }) }
+                            </div>
+                        </div>
+                    </section>
+                    <section className="game-panel">
+                        <div className="card-game">
+                            <canvas id="gameCanvas" width={GAME_WIDTH} height={GAME_HEIGHT} className="game-canvas">
                             Your browser does not support the HTML canvas tag.
                             </canvas>
-                        </React.Fragment>
-                        <section>
-                            <h2>Live Configuration</h2>
-                            <div>
-                                <div>
-                                    <h3>Game Speed</h3>
-                                    <p>{this.state.gameSpeed}</p>
-                                    <input type="range" min="10" max="300"
-                                    value={this.state.gameSpeed}
-                                    onChange={this.changeGameSpeed}/>
+                        </div>
+                        <div className="live-confg">
+                            <div className="card">
+                                <div className="card-header">
+                                    <h2>Game Speed</h2>
+                                </div>
+                                <div className="card-body">
+                                    <div className="card-item">
+                                        <p>{this.state.gameSpeed}</p>
+                                        <input type="range" min="10" max="300"
+                                        value={this.state.gameSpeed}
+                                        onChange={this.changeGameSpeed}/>
+                                    </div>
                                 </div>
                             </div>
-                        </section>
-                    </div>
-                    <div className="Game-right">
-                        <section>
-                            <h2>Initial Configuration</h2>
-                            <div>
-                                <div>
+                        </div>
+                    </section>
+                    <section className="configurations">
+                        <div className="card">
+                            <div className="card-header">
+                                <h2>Configuration</h2>
+                            </div>
+                            <div className="card-body">
+                                <div className="card-item">
                                     <h3>Bird Count</h3>
-                                    <p>{this.state.birdCount}</p>
-                                    <input type="number" value=
-                                    {this.state.birdCount}
-                                    onChange={this.changeBirdCount}/>
+                                    <div>
+                                        <p>{this.state.birdCount}</p>
+                                        <input type="number" value=
+                                        {this.state.birdCount}
+                                        onChange={this.changeBirdCount}/>
+                                    </div>
                                 </div>
-                                <div>
+                                <div className="card-item">
                                     <h3>Pipe Width</h3>
-                                    <p>{this.state.pipeWidth}</p>
-                                    <input type="range" min="10" max="80"
-                                    value={this.state.pipeWidth}
-                                    onChange={this.changePipeWidth}/>
+                                    <div>
+                                        <p>{this.state.pipeWidth}</p>
+                                        <input type="range" min="10" max="80"
+                                        value={this.state.pipeWidth}
+                                        onChange={this.changePipeWidth}/>
+                                    </div>
                                 </div>
-                                <div>
+                                <div className="card-item">
                                     <h3>Pipe Distance</h3>
-                                    <p>{this.state.pipeDistance}</p>
-                                    <input type="range" min="40" max="240"
-                                    value={this.state.pipeDistance}
-                                    onChange={this.changePipeDistance}/>
+                                    <div>
+                                        <p>{this.state.pipeDistance}</p>
+                                        <input type="range" min="40" max="240"
+                                        value={this.state.pipeDistance}
+                                        onChange={this.changePipeDistance}/>
+                                    </div>
+                                </div>
+                                <div className="card-item">
+                                    <div>
+                                        <button className="btn bg-primary txt-white">Restart Game</button>
+                                    </div>
                                 </div>
                             </div>
-                        </section>
-                    </div>
+                        </div>
+                    </section>
                 </div>
             </div>
         );

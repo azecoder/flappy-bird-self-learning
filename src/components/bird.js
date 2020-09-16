@@ -16,9 +16,15 @@ class Bird extends Component {
     brain
     flyTime
 
-    constructor(brain) {
+    ID
+    genID
+
+    constructor(ID, genID, brain) {
         super()
         
+        this.ID = ID
+        this.genID = genID
+
         this.posX = (Math.random() * 400) + PADDING_SIZE
         this.posY = (Math.random() * 100) + PADDING_SIZE
         this.isOut = false
@@ -33,6 +39,23 @@ class Bird extends Component {
 
         this.brain = brain || new NeuralNetwork(4, 10, 2)
         // this.brain = brain || new NeuralNetwork(6, 10, 2)
+    }
+
+    getName = () => {
+        console.log(this.genID)
+        var name = 'G' + this.addZero(this.genID, 4)
+        name = name + 'N' + this.addZero(this.ID, 4)
+    
+        return name;
+    }
+
+    addZero = (number, length) => {
+        var my_string = '' + number;
+        while (my_string.length < length) {
+            my_string = '0' + my_string;
+        }
+    
+        return my_string;
     }
 
     draw = (ctx) => {

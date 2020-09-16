@@ -7,7 +7,7 @@ class Bird extends Component {
 
     posX
     posY
-    acceleration = 0.4
+    acceleration = 0.5
     velocity = 0
 
     isOut
@@ -43,7 +43,7 @@ class Bird extends Component {
 
     getName = () => {
         var name = 'G' + this.addZero(this.genID, 4)
-        name = name + 'N' + this.addZero(this.ID, 4)
+        name = name + '-N' + this.addZero(this.ID, 4)
     
         return name;
     }
@@ -75,7 +75,7 @@ class Bird extends Component {
         }
 
         this.velocity += this.acceleration  // new_v = old_v + delta_v, delta_v = acc * time
-        this.velocity = Math.min(this.velocity, 4)
+        this.velocity = Math.min(this.velocity, 5)
         this.posY += this.velocity
 
         if(this.posY + 2 * BIRD_RADIUS < 0 || this.posY > GAME_HEIGHT + BIRD_RADIUS) {

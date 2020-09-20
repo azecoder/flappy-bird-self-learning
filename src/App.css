@@ -90,12 +90,22 @@ h1, h2, h3, h4, h5, p {
   border-top: 1px solid #DEE2E6;
 }
 
+.card-footer {
+  background-color: #FFF;
+  border-top: 1px solid #DEE2E6;
+  padding: 20px 20px;
+}
+
 .statistics .card-item > div {
   margin-top: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
   position: relative;
+}
+
+.configurations .card-item input {
+  margin-top: 15px;
 }
 
 .card-item .item-icon {

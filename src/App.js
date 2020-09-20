@@ -336,36 +336,43 @@ class Game extends Component {
                             </div>
                             <div className="card-body">
                                 <div className="card-item">
-                                    <h3>Bird Count</h3>
+                                    <h3>
+                                        Bird Count
+                                        <span> ({this.state.birdCount})</span>
+                                    </h3>
                                     <div>
-                                        <p>{this.state.birdCount}</p>
                                         <input type="number" value=
                                         {this.state.birdCount}
                                         onChange={this.changeBirdCount}/>
                                     </div>
                                 </div>
                                 <div className="card-item">
-                                    <h3>Pipe Width</h3>
+                                    <h3>
+                                        Pipe Width
+                                        <span> ({this.state.pipeWidth})</span>
+                                    </h3>
                                     <div>
-                                        <p>{this.state.pipeWidth}</p>
                                         <input type="range" min="10" max="80"
                                         value={this.state.pipeWidth}
                                         onChange={this.changePipeWidth}/>
                                     </div>
                                 </div>
                                 <div className="card-item">
-                                    <h3>Pipe Distance</h3>
+                                    <h3>
+                                        Pipe Distance
+                                        <span> ({this.state.pipeDistance})</span>
+                                    </h3>
                                     <div>
-                                        <p>{this.state.pipeDistance}</p>
                                         <input type="range" min="40" max="240"
                                         value={this.state.pipeDistance}
                                         onChange={this.changePipeDistance}/>
                                     </div>
                                 </div>
-                                <div className="card-item">
-                                    <div>
-                                        <button className="btn bg-primary txt-white">Restart Game</button>
-                                    </div>
+                            </div>
+                            <div className="card-footer">
+                                <div>
+                                    <button className="btn bg-primary txt-white"
+                                    onChange="">Restart Game</button>
                                 </div>
                             </div>
                         </div>

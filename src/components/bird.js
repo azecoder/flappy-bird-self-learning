@@ -91,7 +91,7 @@ class Bird extends Component {
         this.velocity = Math.min(this.velocity, 5)
         this.posY += this.velocity
 
-        if(this.posY + 2 * BIRD_RADIUS < 0 || this.posY > GAME_HEIGHT + BIRD_RADIUS) {
+        if(this.posY + BIRD_RADIUS < 0 || this.posY > GAME_HEIGHT) {
             this.isOut = true;
         }
 
@@ -106,10 +106,10 @@ class Bird extends Component {
             const ND_PIPE_RIGHT_BOTTOM_X = pipe.leftX + pipe.width;
             const ND_PIPE_RIGHT_BOTTOM_Y = GAME_HEIGHT;
         
-            if( (this.posX + BIRD_RADIUS > ST_PIPE_LEFT_TOP_X && this.posX - BIRD_RADIUS < ST_PIPE_RIGHT_BOTTOM_X
-                && this.posY + BIRD_RADIUS > ST_PIPE_LEFT_TOP_Y && this.posY - BIRD_RADIUS < ST_PIPE_RIGHT_BOTTOM_Y)
-                || (this.posX + BIRD_RADIUS > ND_PIPE_LEFT_TOP_X && this.posX - BIRD_RADIUS < ND_PIPE_RIGHT_BOTTOM_X
-                    && this.posY + BIRD_RADIUS > ND_PIPE_LEFT_TOP_Y && this.posY - BIRD_RADIUS < ND_PIPE_RIGHT_BOTTOM_Y)) {
+            if( (this.posX + BIRD_RADIUS > ST_PIPE_LEFT_TOP_X && this.posX < ST_PIPE_RIGHT_BOTTOM_X
+                && this.posY + BIRD_RADIUS > ST_PIPE_LEFT_TOP_Y && this.posY < ST_PIPE_RIGHT_BOTTOM_Y)
+                || (this.posX + BIRD_RADIUS > ND_PIPE_LEFT_TOP_X && this.posX < ND_PIPE_RIGHT_BOTTOM_X
+                    && this.posY + BIRD_RADIUS > ND_PIPE_LEFT_TOP_Y && this.posY < ND_PIPE_RIGHT_BOTTOM_Y)) {
                         this.isDead = true;
                 }
         })
@@ -137,7 +137,7 @@ class Bird extends Component {
                 this.posY, 
                 closestPipe.leftY + closestPipe.heightUp + BIRD_RADIUS * 2, 
                 closestPipe.leftY + closestPipe.heightUp + closestPipe.distance - BIRD_RADIUS * 2,
-                closestPipe.width + 2 * BIRD_RADIUS,
+                closestPipe.width + BIRD_RADIUS * 2,
             ]
 
             let action = this.brain.predict(inputs);

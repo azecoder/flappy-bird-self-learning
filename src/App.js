@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import { GAME_WIDTH, GAME_HEIGHT, BIRD_COUNT, PIPE_DISTANCE, GAME_SPEED, PIPE_WIDTH } from './components/constants'
+import { GAME_WIDTH, GAME_HEIGHT, BIRD_COUNT, PIPE_DISTANCE, GAME_SPEED, PIPE_WIDTH, BIRD_RADIUS } from './components/constants'
 
 import Pipe from './components/pipe'
 import Bird from './components/bird'
@@ -51,7 +51,8 @@ class Game extends Component {
             bestBirds: [],
             recordFlyTime: 0,
             currentFlyTime: 0,
-            loopNumber: 0
+            loopNumber: 0,
+            aliveBirdsCount: 0
         }
     }
 
@@ -132,7 +133,8 @@ class Game extends Component {
 
             this.setState({
                 recordFlyTime: this.bestBirds[0].flyTime,
-                bestBirds: this.bestBirds
+                bestBirds: this.bestBirds,
+                aliveBirdsCount: 0
             })
 
             // reset unnecessary data 
@@ -148,7 +150,8 @@ class Game extends Component {
         } else {
             // set current best fly time
             this.setState({
-                currentFlyTime: aliveBirds[0].flyTime
+                currentFlyTime: aliveBirds[0].flyTime,
+                aliveBirdsCount: aliveBirds.length
             })
         }
     }
@@ -188,7 +191,7 @@ class Game extends Component {
 
     changePipeDistance = (e) => {
         this.setState({
-            pipeDistance: e.target.value
+            pipeDistance: parseInt(e.target.value) + 2 * BIRD_RADIUS
         })
         this.restart()
     }
@@ -212,13 +215,14 @@ class Game extends Component {
                             </div>
                             <div className="card-body random-color">
                                 <div className="card-item">
-                                    <h3>Loop Number</h3>
+                                    <h3>Current</h3>
                                     <div>
                                         <div className="item-icon txt-info">
                                             <FontAwesomeIcon icon={faChevronCircleRight} />
                                         </div>
                                         <div className="item-data">
                                             <p>Loop: <span>{this.state.loopNumber}</span></p>
+                                            <p>Alive Birds: <span>{this.state.aliveBirdsCount}</span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -363,7 +367,7 @@ class Game extends Component {
                                         <span> ({this.state.pipeDistance})</span>
                                     </h3>
                                     <div>
-                                        <input type="range" min="40" max="240"
+                                        <input type="range" min="100" max="240"
                                         value={this.state.pipeDistance}
                                         onChange={this.changePipeDistance}/>
                                     </div>

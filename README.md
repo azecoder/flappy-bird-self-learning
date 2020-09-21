@@ -2,7 +2,7 @@ Developing a Flappy bird game using Machine Learning
 # Flappy Bird - Self Learning Game
 ### It is simple Flappy Bird game. But each bird has a brain in this game. 
 
-!(image)[https://github.com/azecoder/flappy-bird-self-learning/cleverbirds.gif]
+![image](https://github.com/azecoder/flappy-bird-self-learning/blob/master/cleverbirds.gif)
 
 
 ### To implement brain part of the code, I create a think function and use Neural Network to make decisions. 

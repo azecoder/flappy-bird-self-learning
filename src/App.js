@@ -186,14 +186,14 @@ class Game extends Component {
         this.setState({
             pipeWidth: e.target.value
         })
-        this.restart()
+        this.start()
     }
 
     changePipeDistance = (e) => {
         this.setState({
             pipeDistance: parseInt(e.target.value) + 2 * BIRD_RADIUS
         })
-        this.restart()
+        this.start()
     }
 
     render() {

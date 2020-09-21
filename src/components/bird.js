@@ -123,7 +123,7 @@ class Bird extends Component {
         let record = Infinity
         pipes.forEach(pipe => {
             if(pipe.leftX > this.posX) {
-                let diff = pipe.leftX - this.posX
+                let diff = pipe.leftX + pipe.width - this.posX
                 if(diff > 0 && diff < record) {
                     record = diff
                     closestPipe = pipe

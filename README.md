@@ -1,5 +1,5 @@
 # Flappy Bird - Self Learning
-### Using Neural Network in React
+### Making a flappy bird game using Neural Network in React - [Watch Online](https://5f68cd7fbb1d8000082482e7--laughing-lichterman-e703a1.netlify.app/)
 
 ![image](https://github.com/azecoder/flappy-bird-self-learning/blob/master/cleverbirds.gif)
 

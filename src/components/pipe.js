@@ -27,13 +27,13 @@ class Pipe extends Component {
     draw = (ctx) => {
         ctx.beginPath();
         ctx.lineWidth = "2";
-        ctx.fillStyle = "OliveDrab";
+        ctx.fillStyle = "#252733";
         ctx.fillRect(this.leftX, this.leftY, this.width, this.heightUp);
         ctx.stroke();
 
         ctx.beginPath();
         ctx.lineWidth = "2";
-        ctx.fillStyle = "OliveDrab";
+        ctx.fillStyle = "#252733";
         ctx.fillRect(this.leftX, this.leftY + this.heightUp + this.distance, this.width, this.heightDown);
         ctx.stroke();
     }

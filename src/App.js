@@ -92,7 +92,7 @@ class Game extends Component {
     loop() {
         this.ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         // create new pipe and add to the pipe list
-        if(this.frameCount%(60) === 0) {
+        if(this.frameCount%(80) === 0) {
             var newPipe = new Pipe(
                 this.state.pipeWidth,
                 this.state.pipeDistance
@@ -114,7 +114,7 @@ class Game extends Component {
         // update and draw each alive birds
         aliveBirds.forEach(bird => {
             bird.update(this.pipes)
-            bird.draw(this.ctx)
+            bird.draw(this.ctx, Math.floor(this.frameCount/6))
         })
 
         // if all birds are dead
@@ -126,7 +126,7 @@ class Game extends Component {
             this.birds.sort((a, b) => a.flyTime < b.flyTime)
 
             this.bestBirds = []
-            for(let i = 0; i < 4; i++) {
+            for(let i = 0; i < 5; i++) {
                 this.bestBirds.push(this.birds[i])
             }
 
@@ -141,7 +141,7 @@ class Game extends Component {
             // make mutation using best bird brain
             this.bestBirds[0].mutate()
             // generate new birds using best bird
-            this.generateBirds(this.bestBirds)
+            this.generateBirds()
 
             // start game and train again
             this.start()
@@ -154,11 +154,11 @@ class Game extends Component {
     }
 
     // Generate N new trained birds
-    generateBirds(...bestBirds) {
-        this.birds = []
+    generateBirds() {
         for(let i=0; i<this.state.birdCount; i++) {
-            if(bestBirds && bestBirds.length && Math.random() < 0.85) {
-                this.birds.push(new Bird(i+1, this.loopNumber, bestBirds[i%bestBirds.length].brain))
+            if(this.bestBirds && this.bestBirds.length) {
+                var bestBirdIndex = i%this.bestBirds.length
+                this.birds.push(new Bird(i+1, this.loopNumber, bestBirdIndex, this.bestBirds[bestBirdIndex].brain))
             } else {
                 this.birds.push(new Bird(i+1, this.loopNumber))
             }
@@ -371,8 +371,7 @@ class Game extends Component {
                             </div>
                             <div className="card-footer">
                                 <div>
-                                    <button className="btn bg-primary txt-white"
-                                    onChange="">Restart Game</button>
+                                    <button className="btn bg-primary txt-white">Restart Game</button>
                                 </div>
                             </div>
                         </div>

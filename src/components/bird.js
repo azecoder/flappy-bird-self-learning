@@ -3,6 +3,7 @@ import { BIRD_RADIUS, GAME_HEIGHT, PADDING_SIZE } from './constants';
 
 import { NeuralNetwork } from './neural/nn'
 
+
 class Bird extends Component {
 
     posX
@@ -18,12 +19,15 @@ class Bird extends Component {
 
     ID
     genID
+    color
 
-    constructor(ID, genID, brain) {
+    constructor(ID, genID, parentID=4, brain) {
         super()
         
         this.ID = ID
         this.genID = genID
+        this.parentID = parentID
+        // this.color = parentID >= 0 ? BIRD_COLORS[parentID] : "#d92550"
 
         this.posX = (Math.random() * 400) + PADDING_SIZE
         this.posY = (Math.random() * 100) + PADDING_SIZE
@@ -62,15 +66,19 @@ class Bird extends Component {
         return my_string;
     }
 
-    draw = (ctx) => {
+    draw = (ctx, fn) => {
         if(this.isOut || this.isDead) return
-
-        ctx.beginPath();
-        ctx.arc(this.posX, this.posY, BIRD_RADIUS, 0, 2 * Math.PI);
-        ctx.fillStyle = 'Crimson';
-        ctx.fill()
-        ctx.lineWidth = 0.3
-        ctx.stroke();
+        
+        var birdImg = new Image()
+        birdImg.src = process.env.PUBLIC_URL + '/birds/' + this.parentID + (fn%9) + '.png'
+        ctx.drawImage(birdImg, this.posX, this.posY)
+        
+        // ctx.beginPath();
+        // ctx.arc(this.posX, this.posY, BIRD_RADIUS, 0, 2 * Math.PI);
+        // ctx.fillStyle = this.color;
+        // ctx.fill()
+        // ctx.lineWidth = 0.3
+        // ctx.stroke();
     }
 
     update = (pipes) => {
@@ -129,7 +137,7 @@ class Bird extends Component {
                 this.posY, 
                 closestPipe.leftY + closestPipe.heightUp + BIRD_RADIUS * 2, 
                 closestPipe.leftY + closestPipe.heightUp + closestPipe.distance - BIRD_RADIUS * 2,
-                closestPipe.width + 2 * BIRD_RADIUS
+                closestPipe.width + 2 * BIRD_RADIUS,
             ]
 
             let action = this.brain.predict(inputs);

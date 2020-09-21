@@ -5,7 +5,7 @@ Developing a Flappy bird game using Machine Learning
 ![image](https://github.com/azecoder/flappy-bird-self-learning/blob/master/cleverbirds.gif)
 
 
-### To implement brain part of the code, I create a think function and use Neural Network to make decisions. 
+#### To implement brain part of the code, I create a think function and use Neural Network to make decisions. 
 ```
 this.brain = brain || new NeuralNetwork(4, 10, 2)
 
@@ -28,7 +28,7 @@ think = () => {
 }
 ```
 
-###  At the end of the each step it generates N new birds using the tactics (copy brain) of best birds.
+####  At the end of the each step it generates N new birds using the tactics (copy brain) of best birds.
 ```
 generateBirds = () => {
     for(let i=0; i<this.birdsCount; i++) {
@@ -44,11 +44,11 @@ generateBirds = () => {
 
 ## To try in Local
 
-### `git install https://github.com/azecoder/flappy-bird-self-learning`
+#### `git install https://github.com/azecoder/flappy-bird-self-learning`
 Download code from repository
 
-### `npm install`
+#### `npm install`
 Install all packages and dependencies
 
-### `npm start`
+#### `npm start`
 Run the project

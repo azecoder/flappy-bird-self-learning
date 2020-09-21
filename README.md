@@ -1,11 +1,9 @@
-Developing a Flappy bird game using Machine Learning
-# Flappy Bird - Self Learning Game
-### It is simple Flappy Bird game. But each bird has a brain in this game. 
+# Flappy Bird - Self Learning
+### Using Neural Network in React
 
 ![image](https://github.com/azecoder/flappy-bird-self-learning/blob/master/cleverbirds.gif)
 
-
-#### To implement brain part of the code, I create a think function and use Neural Network to make decisions. 
+Each bird has a brain in this game. To implement brain part of the code, I create a think function and use Neural Network to make decisions. 
 ```
 this.brain = brain || new NeuralNetwork(4, 10, 2)
 
@@ -28,7 +26,7 @@ think = () => {
 }
 ```
 
-####  At the end of the each step it generates N new birds using the tactics (copy brain) of best birds.
+At the end of the each step it generates N new birds using the tactics (copy brain) of best birds.
 ```
 generateBirds = () => {
     for(let i=0; i<this.birdsCount; i++) {

@@ -124,12 +124,12 @@ class Game extends Component {
             this.bestBirds.forEach(bird => {
                 this.birds.push(bird)
             })
-            this.birds.sort((a, b) => a.flyTime < b.flyTime)
-
+            this.birds.sort((a, b) => a.flyTime > b.flyTime ? -1 : 1)
             this.bestBirds = []
             for(let i = 0; i < 5; i++) {
                 this.bestBirds.push(this.birds[i])
             }
+            console.log(this.bestBirds)
 
             this.setState({
                 recordFlyTime: this.bestBirds[0].flyTime,
@@ -254,7 +254,7 @@ class Game extends Component {
                                             </div>
                                             <div className="item-data">
                                                 <p>Name: <span>{this.state.bestBirds[0].getName()}</span></p>
-                                                <p>Current: <span>{this.state.bestBirds[0].flyTime}</span></p>
+                                                <p>Fly Time: <span>{this.state.bestBirds[0].flyTime}</span></p>
                                             </div>
                                             <div className="record-icon txt-success">
                                                 {this.state.bestBirds[0].flyTime < this.state.currentFlyTime ? (<FontAwesomeIcon icon={faAngleUp} />) : (<React.Fragment/>) }
@@ -269,7 +269,7 @@ class Game extends Component {
                                             </div>
                                             <div className="item-data">
                                                 <p>Name: <span>{this.state.bestBirds[1].getName()}</span></p>
-                                                <p>Current: <span>{this.state.bestBirds[1].flyTime}</span></p>
+                                                <p>Fly Time: <span>{this.state.bestBirds[1].flyTime}</span></p>
                                             </div>
                                             <div className="record-icon txt-success">
                                                 {this.state.bestBirds[1].flyTime < this.state.currentFlyTime ? (<FontAwesomeIcon icon={faAngleUp} />) : (<React.Fragment/>) }
@@ -284,7 +284,7 @@ class Game extends Component {
                                             </div>
                                             <div className="item-data">
                                                 <p>Name: <span>{this.state.bestBirds[2].getName()}</span></p>
-                                                <p>Current: <span>{this.state.bestBirds[2].flyTime}</span></p>
+                                                <p>Fly Time: <span>{this.state.bestBirds[2].flyTime}</span></p>
                                             </div>
                                             <div className="record-icon txt-success">
                                                 {this.state.bestBirds[2].flyTime < this.state.currentFlyTime ? (<FontAwesomeIcon icon={faAngleUp} />) : (<React.Fragment/>) }
@@ -299,7 +299,7 @@ class Game extends Component {
                                             </div>
                                             <div className="item-data">
                                                 <p>Name: <span>{this.state.bestBirds[3].getName()}</span></p>
-                                                <p>Current: <span>{this.state.bestBirds[3].flyTime}</span></p>
+                                                <p>Fly Time: <span>{this.state.bestBirds[3].flyTime}</span></p>
                                             </div>
                                             <div className="record-icon txt-success">
                                                 {this.state.bestBirds[3].flyTime < this.state.currentFlyTime ? (<FontAwesomeIcon icon={faAngleUp} />) : (<React.Fragment/>) }
